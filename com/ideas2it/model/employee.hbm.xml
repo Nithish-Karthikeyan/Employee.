@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+                        "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+                        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name = "com.ideas2it.model.Employee" table = "employee">
+        <id name = "employeeId" column = "employee_id">
+            <generator class = "assigned">
+            </generator>  
+        </id>
+        <property name = "employeeType" column = "employee_type" type = "string"></property>
+        <property name = "employeeName" column = "name" type = "string"></property>
+        <property name = "dateOfBirth" column = "date_of_birth" type = "string"></property>
+        <property name = "employeeGender" column = "gender" type = "string"></property>
+        <property name = "mobileNumber" column = "mobile_number" type = "string"></property>
+        <property name = "emailId" column = "mail_id" type = "string"></property>
+        <property name = "designation" column = "designation" type = "string"></property>
+        <property name = "createdAt" column = "created_at" type = "string"></property>
+        <property name = "modifiedAt" column = "modified_at" type = "string"></property>
+
+        <bag name = "leaveRecords" cascade = "all">
+        <key column = "employee_id" not-null = "true"></key>
+        <one-to-many class = "com.ideas2it.model.LeaveRecord"></one-to-many>
+        </bag>
+
+        <bag name = "employeeProjects" table = "employee_project" cascade = "all">
+        <key column = "employee_id" not-null = "true"></key>
+        <many-to-many class = "com.ideas2it.model.EmployeeProject" column = "id"></many-to-many>
+        </bag>
+    </class>
+</hibernate-mapping>
+ 
+
+ 

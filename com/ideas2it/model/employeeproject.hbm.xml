@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+                        "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+                        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name = "com.ideas2it.model.EmployeeProject" table = "projects">
+        <id name = "projectId" column = "id">
+            <generator class = "increment"></generator>  
+        </id>
+        <property name = "projectName" column = "project_name" type = "string"></property>
+        <property name = "startDate" column = "start_date" type = "string"></property>
+        <property name = "clientName" column = "client_name" type = "string"></property>
+        <property name = "projectManager" column = "project_manager" type = "string"></property>
+        <property name = "createdAt" column = "created_at" type = "string"></property>
+        <property name = "modifiedAt" column = "modified_at" type = "string"></property>
+
+        <bag name = "employees" table = "employee_project" cascade = "all">
+        <key column = "id" not-null = "true"></key>
+        <many-to-many class = "com.ideas2it.model.Employee" column = "employee_id"></many-to-many>
+        </bag>
+    </class>
+</hibernate-mapping>
