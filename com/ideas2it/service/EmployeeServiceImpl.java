@@ -1,11 +1,13 @@
 package com.ideas2it.service;
 
 import java.util.List;
+
+import com.ideas2it.exception.EmployeeNotFoundException;
 import com.ideas2it.dao.EmployeeDao;
 import com.ideas2it.dao.EmployeeDaoImpl;
-import com.ideas2it.service.EmployeeService;
 import com.ideas2it.model.Employee;
-import com.ideas2it.exception.EmployeeNotFoundException;
+import com.ideas2it.model.EmployeeProject;
+import com.ideas2it.service.EmployeeService;
 
 /**
  * This class implements Employee service interface 
@@ -31,7 +33,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee getEmployeeById(String id) throws EmployeeNotFoundException {
+    public Employee getEmployeeById(String id) {
 	return employeeDaoImpl.getEmployeeById(id);
     }
 
@@ -48,5 +50,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<Employee> getEmployees() {
         return employeeDaoImpl.getEmployees();
+    }
+
+    @Override
+    public boolean assignProject(Employee employee, EmployeeProject project) {
+        return employeeDaoImpl.assignProject(employee, project);
     }
 }

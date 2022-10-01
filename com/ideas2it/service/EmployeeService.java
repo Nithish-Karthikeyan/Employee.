@@ -1,10 +1,12 @@
 package com.ideas2it.service;
 
 import java.util.List;
+
+import com.ideas2it.exception.EmployeeNotFoundException;
 import com.ideas2it.dao.EmployeeDao;
 import com.ideas2it.dao.EmployeeDaoImpl;
 import com.ideas2it.model.Employee;
-import com.ideas2it.exception.EmployeeNotFoundException;
+import com.ideas2it.model.EmployeeProject;
 
 /**
  * This is the interface for employee service 
@@ -41,7 +43,7 @@ public interface EmployeeService {
      * @param employeeId
      * @return Employee
      */
-    public Employee getEmployeeById(String id) throws EmployeeNotFoundException;
+    public Employee getEmployeeById(String id) ;
 
     /**
      * Calls the method in EmployeeDao to insert the updated value of Employee
@@ -66,4 +68,6 @@ public interface EmployeeService {
      * @return employees 
      */
     public List<Employee> getEmployees();
+
+    public boolean assignProject(Employee employee, EmployeeProject project);
 }

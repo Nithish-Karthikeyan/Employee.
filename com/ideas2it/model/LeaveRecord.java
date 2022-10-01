@@ -1,8 +1,10 @@
 package com.ideas2it.model;
 
-import com.ideas2it.model.Employee;
-import com.ideas2it.enums.LeaveType;
 import java.util.List;
+
+import com.ideas2it.enums.LeaveType;
+import com.ideas2it.model.Employee;
+
 
 /**
  * This is the POJO class for leave record
@@ -22,10 +24,12 @@ public class LeaveRecord {
     private int leaveDuration;
     private String createdAt;
     private String modifiedAt;
+    private Employee employee;
 
     public LeaveRecord() {}
     
-    public LeaveRecord(String fromDate, String toDate, String leaveType, String createdAt, String modifiedAt) {
+    public LeaveRecord(Employee employee, String fromDate, String toDate, String leaveType, String createdAt, String modifiedAt) {
+        this.employee = employee;
         this.fromDate = fromDate;
         this.toDate = toDate;
         this.leaveType = leaveType;
@@ -39,6 +43,14 @@ public class LeaveRecord {
         this.fromDate = fromDate;
         this.toDate = toDate;
         this.leaveType = leaveType;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Employee getEmployee() {
+        return employee;
     }
 
     public void setFromDate(String fromDate) {

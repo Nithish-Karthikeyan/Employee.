@@ -11,6 +11,7 @@
         <property name = "hibernate.connection.username">root</property>
         <property name = "hibernate.connection.password">Nithish@ideas2it</property>
         <property name = "show_sql">true</property>
+
         <mapping resource = "com/ideas2it/model/employee.hbm.xml"></mapping>
         <mapping resource = "com/ideas2it/model/leaverecord.hbm.xml"></mapping>
         <mapping resource = "com/ideas2it/model/employeeproject.hbm.xml"></mapping>

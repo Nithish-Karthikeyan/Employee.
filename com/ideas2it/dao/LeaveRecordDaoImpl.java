@@ -29,16 +29,12 @@ public class LeaveRecordDaoImpl implements LeaveRecordDao {
     private Session session = sessionFactory.openSession();
   
     @Override
-    public boolean addLeaveRecord(LeaveRecord leaveRecord, String employeeId) {
+    public boolean addLeaveRecord(LeaveRecord leaveRecord) {
         boolean isAdded = false;
-        List<LeaveRecord> leaveRecords = new ArrayList<LeaveRecord>();
-        leaveRecords.add(leaveRecord);
 
         try {
             Transaction transaction = session.beginTransaction();
-            Employee employee = (Employee) session.get(Employee.class, employeeId);
-            employee.setLeaveRecords(leaveRecords);
-            session.save(employee); 
+            session.save(leaveRecord); 
             transaction.commit();
             isAdded = true;
         } catch (Exception e) {
@@ -48,7 +44,7 @@ public class LeaveRecordDaoImpl implements LeaveRecordDao {
     }
 
     @Override
-    public List<LeaveRecord> getLeaveRecordByEmployeeId(String employeeId) throws EmployeeNotFoundException {
+    public List<LeaveRecord> getLeaveRecordByEmployeeId(String employeeId) {
         List<LeaveRecord> leaveRecords = new ArrayList<LeaveRecord>();
         try {
             Transaction transaction = session.beginTransaction();

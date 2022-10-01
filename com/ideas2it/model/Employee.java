@@ -1,10 +1,12 @@
 package com.ideas2it.model;
 
-import java.util.Date;
-import java.util.Calendar;
-import java.util.List;
-import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+
 import com.ideas2it.enums.EmployeeType;
 import com.ideas2it.enums.Gender;
 

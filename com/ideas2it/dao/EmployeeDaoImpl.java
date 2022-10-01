@@ -1,19 +1,21 @@
 package com.ideas2it.dao;
 
+import javax.persistence.Query;
 import java.util.List;
 import java.util.ArrayList;
-import javax.persistence.Query;
 import org.hibernate.Session;  
 import org.hibernate.SessionFactory;  
 import org.hibernate.cfg.Configuration;
 import org.hibernate.Transaction;
 
-import com.ideas2it.model.Employee;
 import com.ideas2it.dao.EmployeeDao;
+import com.ideas2it.databaseconnection.DatabaseConnection;
 import com.ideas2it.enums.EmployeeType;
 import com.ideas2it.enums.Gender;
-import com.ideas2it.databaseconnection.DatabaseConnection;
 import com.ideas2it.exception.EmployeeNotFoundException;
+import com.ideas2it.model.Employee;
+import com.ideas2it.model.EmployeeProject;
+
 
 /**
  * This class implements the employee DAO 
@@ -74,7 +76,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     @Override
-    public Employee getEmployeeById(String employeeId) throws EmployeeNotFoundException {
+    public Employee getEmployeeById(String employeeId) {
         Employee employee = null;
         try {
             Transaction transaction = session.beginTransaction();
@@ -126,5 +128,22 @@ public class EmployeeDaoImpl implements EmployeeDao {
             System.out.println(e);
         }
         return employees;
+    }
+
+    @Override
+    public boolean assignProject(Employee employee, EmployeeProject project) {
+        boolean isAdded = false;    
+        List<EmployeeProject> projects = new ArrayList<EmployeeProject>();
+        projects.add(project);
+
+        try {
+            Transaction transaction = session.beginTransaction();
+            employee.setEmployeeProjects(projects);
+            session.save(employee);
+            transaction.commit();         
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return isAdded;
     }
 }

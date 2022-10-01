@@ -1,11 +1,12 @@
 package com.ideas2it.service;
 
 import java.util.List;
+
+import com.ideas2it.exception.EmployeeNotFoundException;
 import com.ideas2it.dao.LeaveRecordDao;
 import com.ideas2it.dao.LeaveRecordDaoImpl;
 import com.ideas2it.model.LeaveRecord;
 import com.ideas2it.model.Employee;
-import com.ideas2it.exception.EmployeeNotFoundException;
 
 /**
  * This is the interface for Leave Record Service  
@@ -24,7 +25,7 @@ public interface LeaveRecordService {
      * @param leaveRecord
      * @return boolean
      */
-    public boolean addLeaveRecord(LeaveRecord leaveRecord, String employeeId);
+    public boolean addLeaveRecord(LeaveRecord leaveRecord);
 
     /**
      * Passes employee ID to LeaveRecord Dao to get leave records of particular employee
@@ -34,7 +35,7 @@ public interface LeaveRecordService {
      * @param employeeId
      * @return List<LeaveRecord>
      */
-    public List<LeaveRecord> getLeaveRecordByEmployeeId(String id) throws EmployeeNotFoundException;
+    public List<LeaveRecord> getLeaveRecordByEmployeeId(String id) ;
 
     /**
      * Calls the method in LeaveRecordDao to insert the updated value of leave record

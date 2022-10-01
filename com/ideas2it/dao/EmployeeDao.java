@@ -1,9 +1,10 @@
 package com.ideas2it.dao;
 
-import com.ideas2it.model.Employee;
 import java.util.List;
-import java.sql.SQLException;
+
 import com.ideas2it.exception.EmployeeNotFoundException;
+import com.ideas2it.model.Employee;
+import com.ideas2it.model.EmployeeProject;
 
 /**
  * This is the interface for employee DAO 
@@ -47,7 +48,7 @@ public interface EmployeeDao {
      * @param employeeId
      * @return Employee
      */
-    public Employee getEmployeeById(String employeeId) throws EmployeeNotFoundException;
+    public Employee getEmployeeById(String employeeId);
 
     /**
      * Insert the updated details of the employee in the database
@@ -73,5 +74,6 @@ public interface EmployeeDao {
      * @return List<Employee> - returns the employee list  
      */
     public List<Employee> getEmployees();
-    
+
+    public boolean assignProject(Employee employee, EmployeeProject project);    
 }

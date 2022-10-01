@@ -3,6 +3,11 @@ import java.util.List;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import com.ideas2it.datetimeutils.DateTimeUtils;
+import com.ideas2it.enums.EmployeeType;
+import com.ideas2it.enums.Gender;
+import com.ideas2it.enums.LeaveType;
+import com.ideas2it.exception.EmployeeNotFoundException;
 import com.ideas2it.model.Employee;
 import com.ideas2it.model.EmployeeProject;
 import com.ideas2it.model.LeaveRecord;
@@ -12,14 +17,8 @@ import com.ideas2it.service.LeaveRecordService;
 import com.ideas2it.service.EmployeeServiceImpl;
 import com.ideas2it.service.EmployeeProjectServiceImpl;
 import com.ideas2it.service.LeaveRecordServiceImpl;
-
-import com.ideas2it.exception.EmployeeNotFoundException;
 import com.ideas2it.validationutils.ValidationUtils;
-import com.ideas2it.datetimeutils.DateTimeUtils;
 
-import com.ideas2it.enums.EmployeeType;
-import com.ideas2it.enums.Gender;
-import com.ideas2it.enums.LeaveType;
 
 /**
  * This class is the controller class which contains main method
@@ -48,7 +47,8 @@ public class EmployeeController  {
         final String EMPLOYEE_DETAILS = "1";
         final String LEAVE_RECORDS = "2";
         final String PROJECT_DETAILS = "3";
-        final String EXIT_MENU = "4";
+        final String ASSIGN_PROJECT = "4";
+        final String EXIT_MENU = "5";
         String choice;
 
         do {
@@ -56,7 +56,8 @@ public class EmployeeController  {
                               +"1. Employee Details\n"
                               +"2. Leave Record\n"
                               +"3. Project Details\n"
-                              +"4. Exit");
+                              +"4. Assign project to an Employee\n"
+                              +"5. Exit");
             choice = scanner.next();
         
             switch(choice) {
@@ -70,6 +71,10 @@ public class EmployeeController  {
 
                 case PROJECT_DETAILS: 
                     chooseOperationForEmployeeProject();
+                    break;
+
+                case ASSIGN_PROJECT:
+                    assignProject();
                     break;
                 
                 case EXIT_MENU:
@@ -198,16 +203,21 @@ public class EmployeeController  {
     public void printEmployeeDetails() {
         final String PRINT_EMPLOYEES = "1";
         final String PRINT_EMPLOYEE = "2";
+        final String EXIT_PRINT_EMPLOYEE = "3";
+
         System.out.println("Enter the choice");
         while(true) {
             System.out.println("1. Print all employee details\n"
-                               +"2. Print one employee detail");
+                               +"2. Print one employee detail\n"
+                               +"3. Exit");
             String choice = scanner.next();
             if(choice.equals(PRINT_EMPLOYEES)) {
                 printEmployees();
                 break;
             } else if (choice.equals(PRINT_EMPLOYEE)) {
                 getEmployeeById();
+                break;
+            } else if (choice.equals(EXIT_PRINT_EMPLOYEE)) {
                 break;
             } else {
                 System.out.println("Enter the valid option");
@@ -230,7 +240,6 @@ public class EmployeeController  {
      * Get the employee id from the user 
      */
     public void getEmployeeById() {
-        try{
             System.out.println("Enter the employee ID");
             String employeeId = scanner.next();
             StringBuilder printEmployees = new StringBuilder();
@@ -238,9 +247,6 @@ public class EmployeeController  {
                               +"\n----------------Employee Details---------------\n\n"
                               +employeeServiceImpl.getEmployeeById(employeeId)
                               +"\n----------------------------------"));
-        } catch (EmployeeNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     /**
@@ -285,12 +291,7 @@ public class EmployeeController  {
         Employee employee = null;
         System.out.println("Enter the employee Id");
         String employeeId = scanner.next();
-
-        try {
-	    employee = employeeServiceImpl.getEmployeeById(employeeId);
-        } catch (EmployeeNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
+	employee = employeeServiceImpl.getEmployeeById(employeeId);
 
         if (employee != null) {
             do {
@@ -505,12 +506,7 @@ public class EmployeeController  {
      * This exception occurs if employee not found
      */
     public Employee checkEmployeeId(String employeeId) {
-        Employee employee = null;
-        try {
-             employee = employeeServiceImpl.getEmployeeById(employeeId);
-        } catch (EmployeeNotFoundException e) {
-             System.out.println(e);
-        }
+        Employee employee = employeeServiceImpl.getEmployeeById(employeeId);
         return employee;
     }
 
@@ -609,10 +605,10 @@ public class EmployeeController  {
             String createdAt = dateTimeUtils.getDate();
             String modifiedAt = dateTimeUtils.getDate();
 
-            LeaveRecord leaveRecord = new LeaveRecord(fromDate, toDate,
+            LeaveRecord leaveRecord = new LeaveRecord(employee, fromDate, toDate,
                                                   leaveType, createdAt, modifiedAt);
 
-            if (leaveRecordServiceImpl.addLeaveRecord(leaveRecord, employeeId)) {
+            if (leaveRecordServiceImpl.addLeaveRecord(leaveRecord)) {
                 System.out.println("\n\n----Leave Record not added----\n\n");
             } else {
                System.out.println("\n\n----Leave Record added successfully----\n\n");
@@ -635,11 +631,8 @@ public class EmployeeController  {
         LocalDate firstDate = null;
         LocalDate secondDate = null;
         int leaveCount = 0;
-        try {
         leaveRecords = leaveRecordServiceImpl.getLeaveRecordByEmployeeId(employeeId);
-        } catch (EmployeeNotFoundException e) {
-            System.out.println(e);
-        }
+
         DateTimeUtils dateTimeUtils = new DateTimeUtils();
         for (LeaveRecord leaveEntry :leaveRecords) {
             firstDate = dateTimeUtils.getLocalDateFormat(leaveEntry.getFromDate());
@@ -657,10 +650,13 @@ public class EmployeeController  {
     public void printChoiceForLeaveRecords() {
         final String PRINT_LEAVE_RECORDS = "1";
         final String PRINT_LEAVE_RECORD = "2";
+        final String EXIT_PRINT_LEAVE_RECORD = "3";
+
         System.out.println("Enter the choice");
         while(true) {
             System.out.println("1. Print all Leave Records\n"
-                               +"2. Print particular Leave Record");
+                               +"2. Print particular Leave Record\n"
+                               +"3. Exit");
             String choice = scanner.next();
             if(choice.equals(PRINT_LEAVE_RECORDS)) {
                 printLeaveRecords();
@@ -669,6 +665,8 @@ public class EmployeeController  {
                 System.out.println("Enter the employee ID");
                 String employeeId = scanner.next();
                 getLeaveRecordByEmployeeId(employeeId);
+                break;
+            } else if (choice.equals(EXIT_PRINT_LEAVE_RECORD)) {
                 break;
             } else {
                 System.out.println("Enter the valid option");
@@ -693,15 +691,11 @@ public class EmployeeController  {
      * @param employeeId
      */
     public void getLeaveRecordByEmployeeId(String employeeId) {
-        try{
-            StringBuilder printLeaveRecord = new StringBuilder();
-            System.out.println(printLeaveRecord.append("-------------------------------------------------\n"
-                              +"\n----------------Leave Record---------------\n\n"
-                              +leaveRecordServiceImpl.getLeaveRecordByEmployeeId(employeeId)
-                              +"\n-------------------------------------------------"));
-        } catch (EmployeeNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
+        StringBuilder printLeaveRecord = new StringBuilder();
+        System.out.println(printLeaveRecord.append("-------------------------------------------------\n"
+                          +"\n----------------Leave Record---------------\n\n"
+                          +leaveRecordServiceImpl.getLeaveRecordByEmployeeId(employeeId)
+                          +"\n-------------------------------------------------"));
     }
    
     /**
@@ -731,16 +725,14 @@ public class EmployeeController  {
         String employeeId = scanner.next();
         getLeaveRecordByEmployeeId(employeeId);
         List<LeaveRecord> leaveRecords = new ArrayList<LeaveRecord>();
-        try {
-            leaveRecords = leaveRecordServiceImpl.getLeaveRecordByEmployeeId(employeeId);
-            if (leaveRecords != null) {
-                editLeaveEntry(leaveRecords);
-            } else {
-                System.out.println("Employee does not have any leave Record");
-            }
-        } catch(EmployeeNotFoundException e) {
-            System.out.println("Employee Not Found");
+        leaveRecords = leaveRecordServiceImpl.getLeaveRecordByEmployeeId(employeeId);
+
+        if (leaveRecords != null) {
+            editLeaveEntry(leaveRecords);
+        } else {
+            System.out.println("Employee does not have any leave Record");
         }
+
     }
 
     /**
@@ -859,8 +851,7 @@ public class EmployeeController  {
         final String ADD_EMPLOYEE_PROJECT = "1";
         final String DISPLAY_EMPLOYEE_PROJECT = "2";
         final String UPDATE_EMPLOYEE_PROJECT = "3";
-        final String DELETE_EMPLOYEE_PROJECT = "4";
-        final String EXIT_EMPLOYEE_PROJECT = "5";
+        final String EXIT_EMPLOYEE_PROJECT = "4";
         String choice;
 
         do {
@@ -879,10 +870,6 @@ public class EmployeeController  {
                     validateEmployeeProject(); 
                     break; 
 
-                case DELETE_EMPLOYEE_PROJECT:
-                    deleteEmployeeProject();
-                    break;        
- 
                 case EXIT_EMPLOYEE_PROJECT:
                      break;
           
@@ -904,8 +891,7 @@ public class EmployeeController  {
                              +"1. Add\n" 
                              +"2. Display\n"
                              +"3. Update\n"
-                             +"4. Delete\n"
-                             +"5. Exit\n"));
+                             +"4. Exit\n"));
         String choice = scanner.next();
         return choice;
     }
@@ -969,16 +955,21 @@ public class EmployeeController  {
     public void printChoiceForEmployeeProject() {
         final String PRINT_ALL_EMPLOYEE_PROJECTS = "1";
         final String PRINT_EMPLOYEE_PROJECT = "2";
+        final String EXIT_PRINT_EMPLOYEE_PROJECT ="3";
+
         System.out.println("Enter the choice");
         while(true) {
             System.out.println("1. Print all Employee Projects\n"
-                               +"2. Print particular Employee Project");
+                               +"2. Print particular Employee Project\n"
+                               +"3. Exit");
             String choice = scanner.next();
             if(choice.equals(PRINT_ALL_EMPLOYEE_PROJECTS)) {
                 printEployeeProjects();
                 break;
             } else if (choice.equals(PRINT_EMPLOYEE_PROJECT)) {
                 getEmployeeProjectByEmployeeId();
+                break;
+            } else if (choice.equals(EXIT_PRINT_EMPLOYEE_PROJECT)) {
                 break;
             } else {
                 System.out.println("Enter the valid option");
@@ -1003,17 +994,13 @@ public class EmployeeController  {
      * @param employeeId
      */
     public void getEmployeeProjectByEmployeeId() {
-        try{
-            System.out.println("Enter the employee ID");
-            String employeeId = scanner.next();
-            StringBuilder printEmployeeProject = new StringBuilder();
-            System.out.println(printEmployeeProject.append("-------------------------------------------------\n"
-                              +"\n----------------Employee Project---------------\n\n"
-                              +employeeProjectServiceImpl.getEmployeeProjectByEmployeeId(employeeId)
-                              +"\n-------------------------------------------------"));
-        } catch (EmployeeNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
+        System.out.println("Enter the employee ID");
+        int projectId = scanner.nextInt();
+        StringBuilder printEmployeeProject = new StringBuilder();
+        System.out.println(printEmployeeProject.append("-------------------------------------------------\n"
+                          +"\n----------------Employee Project---------------\n\n"
+                          +employeeProjectServiceImpl.getEmployeeProjectByEmployeeId(projectId)
+                          +"\n-------------------------------------------------"));
     }
 
     /**
@@ -1046,41 +1033,17 @@ public class EmployeeController  {
         final String CHANGE_EMPLOYEE_ID = "1";
         final String NO_CHANGE = "2";
         EmployeeProject employeeProject = null;
-        String employeeId = " ";
-        String newEmployeeID = " ";
-        System.out.println("Enter the employee Id");
-        employeeId = scanner.next(); 
-        employeeProject = checkEmployeeProjectId(employeeId);
-        do {        
-            System.out.println("Do you want to change employee ID\n1. Yes\n2. No");
-            String choice = scanner.next();
-            if (choice.equals(CHANGE_EMPLOYEE_ID)) {
-
-                if (employeeProject != null) { 
-                    System.out.println("Employee exist");
-                    System.out.println("Enter the new employee ID");
-                    newEmployeeID = scanner.next();
-                    employeeProject = checkEmployeeProjectId(employeeId);
-
-                    if (employeeProject != null) {  
-                        System.out.println("Employee exist");
-                        editEmployeeProject(employeeProject);
-                    } else {
-                        System.out.println("---Employee Not Found---");
-                    }
-
-                } else {
-                    System.out.println("---Employee Not Found---");
-                }
-
-            } else if (choice.equals(NO_CHANGE)) {
-                System.out.println("Employee exist");
-                editEmployeeProject(employeeProject);
-                break;
-            } else {
-                 System.out.println("Invalid Choice");
-            }
-        }while(true);
+        int projectId = 0;
+        printEployeeProjects();
+        System.out.println("Enter the project Id");
+        projectId = scanner.nextInt(); 
+        employeeProject = checkEmployeeProjectId(projectId);     
+        if (employeeProject != null) {  
+            System.out.println("Employee exist");
+            editEmployeeProject(employeeProject);
+        } else {
+            System.out.println("---Project ID not found---");
+        }
     }
 
     /**
@@ -1098,65 +1061,69 @@ public class EmployeeController  {
         final String EXIT_EMPLOYEE_PROJECT_EDIT = "5";
         String userChange = " ";
         String choice = " ";
-        if (employeeProject != null) {
-            do {
-                choice = showChoiceForEmployeeProject();                              
-                switch(choice) {
 
-                    case CHANGE_PROJECT_NAME:     
-                        System.out.println("Enter the new project name");
-                        userChange = validateName();
-                        employeeProject.setProjectName(userChange);
-		        updateEmployeeProject(employeeProject);
-                        break;
+        do {
+            choice = showChoiceForEmployeeProject();                              
+            switch(choice) {
+ 
+               case CHANGE_PROJECT_NAME:     
+                    System.out.println("Enter the new project name");
+                    userChange = validateName();
+                    employeeProject.setProjectName(userChange);
+                    updateEmployeeProject(employeeProject);
+                    break;
 
-                    case CHANGE_PROJECT_MANAGER:
-                        System.out.println("Enter the new project Manager Id");
-                        userChange = scanner.next();
-                        Employee employee = checkEmployeeId(userChange);       
-                        if(employee != null) {
-                            userChange = employee.getEmployeeName();
-                            employeeProject.setProjectManager(userChange);
-		            updateEmployeeProject(employeeProject);
-                        } else {
-                            System.out.println("Invalid Id");
-                        }
-                        break;
+                case CHANGE_PROJECT_MANAGER:
+                    System.out.println("Enter the new project Manager Id");
+                    userChange = scanner.next();
+                    Employee employee = checkEmployeeId(userChange);       
+                    if(employee != null) {
+                        userChange = employee.getEmployeeName();
+                        employeeProject.setProjectManager(userChange);
+                        updateEmployeeProject(employeeProject);
+                    } else {
+                        System.out.println("Invalid Id");
+                    }
+                    break;
                                
-                    case CHANGE_CLIENT_NAME:
-                        System.out.println("Enter the new Client Name"); 
-                        userChange = validateName();
-                        employeeProject.setClientName(userChange);
-                        updateEmployeeProject(employeeProject);
-                        break;
+                case CHANGE_CLIENT_NAME:
+                    System.out.println("Enter the new Client Name"); 
+                    userChange = validateName();
+                    employeeProject.setClientName(userChange);
+                    updateEmployeeProject(employeeProject);
+                    break;
 
-                    case CHANGE_PROJECT_START_DATE:
-                        System.out.println("Enter the new project start date");
-                        userChange = validateDate();
-                        employeeProject.setStartDate(userChange);
-                        updateEmployeeProject(employeeProject);
-                        break;
+                case CHANGE_PROJECT_START_DATE:
+                    System.out.println("Enter the new project start date");
+                    userChange = validateDate();
+                    employeeProject.setStartDate(userChange);
+                    updateEmployeeProject(employeeProject);
+                    break;
     
-                    case EXIT_EMPLOYEE_PROJECT_EDIT:
-                        break;
+                case EXIT_EMPLOYEE_PROJECT_EDIT:
+                    break;
 
-                    default:
-                        System.out.println("Invalid Option");
-                        break;
-                }    
-            }while(!choice.equals(EXIT_EMPLOYEE_PROJECT_EDIT));   
-        }
+                default:
+                    System.out.println("Invalid Option");
+                    break;
+            }    
+        }while(!choice.equals(EXIT_EMPLOYEE_PROJECT_EDIT));   
     }
 
     /**
      * Validate whether the employee in project is exist or not
      *
      */ 
-    public EmployeeProject checkEmployeeProjectId(String employeeId) {
+    public EmployeeProject checkEmployeeProjectId(int projectId) {
         List<EmployeeProject> employeeProjects = new ArrayList<EmployeeProject>();
-        employeeProjects = employeeProjectServiceImpl.getEmployeeProjectByEmployeeId(employeeId);
+        EmployeeProject employeeProject = null;
+        employeeProjects = employeeProjectServiceImpl.getEmployeeProjectByEmployeeId(projectId);
+
         for (EmployeeProject project : employeeProjects) {
-            if (employeeId == project.getProjectId()) {
+            if (projectId == project.getProjectId()) {
+                employeeProject = project;
+            }
+        }
         return employeeProject;
     }
 
@@ -1168,23 +1135,34 @@ public class EmployeeController  {
      */
     public void updateEmployeeProject(EmployeeProject employeeProject) {
         DateTimeUtils dateTimeUtils = new DateTimeUtils();
-        employeeProjectServiceImpl.updateEmployeeProject(employeeProject);
         employeeProject.setModifiedAt(dateTimeUtils.getDate());
         employeeProjectServiceImpl.updateEmployeeProject(employeeProject);
     }
 
-    /**
-     * Gets the employee id which the user 
-     * wants to remove the employee Project the data
-     */
-    public void deleteEmployeeProject() {
-        System.out.println("Enter the employee Id");
+    public void assignProject() {
+        System.out.println("Enter the employeeId");
         String employeeId = scanner.next();
+        Employee employee = checkEmployeeId(employeeId);
+        if (employee != null) {
+            printEployeeProjects();
+            System.out.println("Enter the project id for the employee");
+            int projectId = scanner.nextInt();
+            EmployeeProject project = getProjectById(projectId);
+            if (project != null) {
+                employeeServiceImpl.assignProject(employee, project);
+            }
+        }   
+    }
 
-        if (employeeProjectServiceImpl.removeEmployeeProject(employeeId)) {
-            System.out.println("\n\n-----Employee not found------\n\n");
-        } else {
-            System.out.println("\n\n-----Employee Deleted Successfully-----\n\n");
-        }        
+    public EmployeeProject getProjectById(int projectId) {
+        EmployeeProject project = null; 
+        List<EmployeeProject> projects = employeeProjectServiceImpl.getEmployeeProjects();
+        
+        for(EmployeeProject projectById : projects) {
+            if(projectId == projectById.getProjectId()) {
+                project = projectById;
+            }   
+        }
+        return project;
     }
 }

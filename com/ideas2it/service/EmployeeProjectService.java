@@ -1,10 +1,11 @@
 package com.ideas2it.service;
 
 import java.util.List;
+
+import com.ideas2it.exception.EmployeeNotFoundException;
 import com.ideas2it.dao.EmployeeProjectDao;
 import com.ideas2it.dao.EmployeeProjectDaoImpl;
 import com.ideas2it.model.EmployeeProject;
-import com.ideas2it.exception.EmployeeNotFoundException;
 
 /**
  * This is the interface for employee project service 
@@ -33,7 +34,7 @@ public interface EmployeeProjectService {
      *@param employeeId
      *@return Employee
      */
-    public List<EmployeeProject> getEmployeeProjectByEmployeeId(String employeeId) throws EmployeeNotFoundException;
+    public List<EmployeeProject> getEmployeeProjectByEmployeeId(int projectId);
 
     /**
      * Gets the entire employee project list from
@@ -42,14 +43,6 @@ public interface EmployeeProjectService {
      * @return List<EmployeeProject>
      */
     public List<EmployeeProject> getEmployeeProjects();
-
-    /**
-     * Passes the employee Id to EmployeeProjectDao which the user want to delete 
-     *
-     * @param employeeId
-     * @return boolean
-     */
-    public boolean removeEmployeeProject(String employeeId);
 
     /**
      * Calls the method in LeaveRecordDao to insert the updated value of LeaveRecord

@@ -1,10 +1,11 @@
 package com.ideas2it.service;
 
 import java.util.List;
+
+import com.ideas2it.exception.EmployeeNotFoundException;
 import com.ideas2it.dao.EmployeeProjectDao;
 import com.ideas2it.dao.EmployeeProjectDaoImpl;
 import com.ideas2it.model.EmployeeProject;
-import com.ideas2it.exception.EmployeeNotFoundException;
 
 public class EmployeeProjectServiceImpl implements EmployeeProjectService {
 
@@ -16,8 +17,8 @@ public class EmployeeProjectServiceImpl implements EmployeeProjectService {
     }
 
     @Override
-    public List<EmployeeProject> getEmployeeProjectByEmployeeId(String employeeId) throws EmployeeNotFoundException {
-	return employeeProjectDaoImpl.getEmployeeProjectByEmployeeId(employeeId);
+    public List<EmployeeProject> getEmployeeProjectByEmployeeId(int projectId) {
+	return employeeProjectDaoImpl.getEmployeeProjectByEmployeeId(projectId);
     } 
 
     @Override
@@ -30,8 +31,4 @@ public class EmployeeProjectServiceImpl implements EmployeeProjectService {
         return employeeProjectDaoImpl.updateEmployeeProject(employeeProject);
     }
 
-    @Override
-    public boolean removeEmployeeProject(String employeeId) {
-        return employeeProjectDaoImpl.removeEmployeeProject(employeeId);
-    }
 }

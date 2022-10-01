@@ -15,12 +15,13 @@ public enum Gender {
     }
   
     public static Gender getEmployeeGender(String index) {
-        Gender choice = null;
-        for (Gender gender: Gender.values()) {
-            if(gender.value.equals(index)) {
-                choice = gender;
+        Gender gender = null;
+
+        for (Gender choice: Gender.values()) {
+            if(choice.value.equals(index)) {
+                gender = choice;
             }
         }        
-        return choice;
+        return gender;
     }
 }

@@ -1,9 +1,9 @@
 package com.ideas2it.dao;
 
+import java.util.List;
+
 import com.ideas2it.model.LeaveRecord;
 import com.ideas2it.model.Employee;
-import java.util.List;
-import java.sql.SQLException;
 import com.ideas2it.exception.EmployeeNotFoundException;
 
 /**
@@ -23,7 +23,7 @@ public interface LeaveRecordDao {
      * @param leaveRecord  - to add a new leaveRecord
      * @return boolean
      */
-    public boolean addLeaveRecord(LeaveRecord leaveRecord, String employeeId);
+    public boolean addLeaveRecord(LeaveRecord leaveRecord);
 
     /**
      * Get the leave records of the employee by using the employee ID
@@ -33,7 +33,7 @@ public interface LeaveRecordDao {
      *@param employeeId
      *@return List<LeaveRecord> 
      */
-    public List<LeaveRecord> getLeaveRecordByEmployeeId(String employeeId) throws EmployeeNotFoundException;
+    public List<LeaveRecord> getLeaveRecordByEmployeeId(String employeeId);
 
     /**
      *Insert the updated details of the leave Record in the database
