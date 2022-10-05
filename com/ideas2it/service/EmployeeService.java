@@ -70,4 +70,6 @@ public interface EmployeeService {
     public List<Employee> getEmployees();
 
     public boolean assignProject(Employee employee, EmployeeProject project);
+
+    public List<Object[]> getEmployeeDetails(String employeeId);
 }

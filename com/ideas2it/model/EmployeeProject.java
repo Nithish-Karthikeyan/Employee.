@@ -1,7 +1,6 @@
 package com.ideas2it.model;
 
 import java.util.List;
-
 import com.ideas2it.model.Employee;
 
 /**
@@ -17,7 +16,7 @@ public class EmployeeProject {
     private String employeeId;
     private String projectName;
     private String startDate;
-    private String projectManager;
+    private String projectManagerName;
     private String clientName;
     private String createdAt;
     private String modifiedAt;
@@ -25,22 +24,13 @@ public class EmployeeProject {
 
     public EmployeeProject() {}
 
-    public EmployeeProject(String projectName, String projectManager, String clientName, String startDate, String createdAt, String modifiedAt) {
+    public EmployeeProject(String projectName, String projectManagerName, String clientName, String startDate, String createdAt, String modifiedAt) {
         this.projectName = projectName;
-        this.projectManager = projectManager;
+        this.projectManagerName = projectManagerName;
         this.clientName = clientName;
         this.startDate = startDate;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
-    }
-
-    public EmployeeProject(int projectId, String employeeId, String projectName, String projectManager, String clientName, String startDate) {
-        this.projectId = projectId;
-        this.employeeId = employeeId;
-        this.projectName = projectName;
-        this.projectManager = projectManager;
-        this.clientName = clientName;
-        this.startDate = startDate;
     }
 
     public void setProjectName(String projectName) {
@@ -51,12 +41,12 @@ public class EmployeeProject {
         return projectName;
     }
 
-    public void setProjectManager(String projectManager) {
-        this.projectManager = projectManager;
+    public void setProjectManagerName(String projectManagerName) {
+        this.projectManagerName = projectManagerName;
     }
 
-    public String getProjectManager() {
-        return projectManager;
+    public String getProjectManagerName() {
+        return projectManagerName;
     }
 
     public void setClientName(String clientName) {
@@ -117,7 +107,7 @@ public class EmployeeProject {
 
     public String toString() {
         String displayProjectInformation = "\nProject Id            : "+projectId+"\n"
-                                            +"Project Manager       : "+projectManager+"\n"
+                                            +"Project Manager       : "+projectManagerName+"\n"
                                             +"Project Name          : "+projectName+"\n"
                                             +"Client Name           : "+clientName+"\n"
                                             +"Project Start Date    : "+startDate+"\n";

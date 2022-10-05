@@ -32,7 +32,7 @@ public interface EmployeeProjectDao {
      *@param employeeId
      *@return EmployeeProject
      */
-    public List<EmployeeProject> getEmployeeProjectByEmployeeId(int projectId);
+    public List<EmployeeProject> getEmployeeProjectByEmployeeId(String employeeId);
 
     /**
      * Get all the employee project list

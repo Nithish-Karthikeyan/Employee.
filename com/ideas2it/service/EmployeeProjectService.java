@@ -34,7 +34,7 @@ public interface EmployeeProjectService {
      *@param employeeId
      *@return Employee
      */
-    public List<EmployeeProject> getEmployeeProjectByEmployeeId(int projectId);
+    public List<EmployeeProject> getEmployeeProjectByEmployeeId(String employeeId);
 
     /**
      * Gets the entire employee project list from

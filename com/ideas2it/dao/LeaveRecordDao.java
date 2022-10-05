@@ -23,7 +23,7 @@ public interface LeaveRecordDao {
      * @param leaveRecord  - to add a new leaveRecord
      * @return boolean
      */
-    public boolean addLeaveRecord(LeaveRecord leaveRecord);
+    public boolean addLeaveRecord(LeaveRecord leaveRecord, Employee employee);
 
     /**
      * Get the leave records of the employee by using the employee ID

@@ -56,4 +56,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     public boolean assignProject(Employee employee, EmployeeProject project) {
         return employeeDaoImpl.assignProject(employee, project);
     }
+
+    public List<Object[]> getEmployeeDetails(String employeeId) {
+        return employeeDaoImpl.getEmployeeDetails(employeeId);
+    }
 }

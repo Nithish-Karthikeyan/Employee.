@@ -9,13 +9,13 @@
             <generator class = "increment"></generator>  
         </id>
 
-        <property name = "fromDate" column = "start_date" type = "string"></property>
-        <property name = "toDate" column = "end_date" type = "string"></property>
-        <property name = "leaveType" column = "leave_type" type = "string"></property>
-        <property name = "createdAt" column = "created_at" type = "string"></property>
-        <property name = "modifiedAt" column = "modified_at" type = "string"></property>
+        <property name = "fromDate" column = "start_date" type = "string" length = "20"></property>
+        <property name = "toDate" column = "end_date" type = "string" length = "20"></property>
+        <property name = "leaveType" column = "leave_type" type = "string" length = "20"></property>
+        <property name = "createdAt" column = "created_at" type = "string" length = "30"></property>
+        <property name = "modifiedAt" column = "modified_at" type = "string" length = "30"></property>
+        <property name = "deleted" column = "deleted" type = "integer"></property>
 
-        <many-to-one class = "com.ideas2it.model.Employee" name = "employeeId" column = "employee_id" insert ="false" update="false" >
-        </many-to-one>
+        <many-to-one class = "com.ideas2it.model.Employee" name = "employee" column = "employee_id" insert = "false" update = "false"></many-to-one>
      </class>
 </hibernate-mapping>

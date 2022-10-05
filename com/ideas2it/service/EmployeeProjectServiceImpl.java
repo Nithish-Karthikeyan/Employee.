@@ -17,8 +17,8 @@ public class EmployeeProjectServiceImpl implements EmployeeProjectService {
     }
 
     @Override
-    public List<EmployeeProject> getEmployeeProjectByEmployeeId(int projectId) {
-	return employeeProjectDaoImpl.getEmployeeProjectByEmployeeId(projectId);
+    public List<EmployeeProject> getEmployeeProjectByEmployeeId(String employeeId) {
+	return employeeProjectDaoImpl.getEmployeeProjectByEmployeeId(employeeId);
     } 
 
     @Override

@@ -5,19 +5,20 @@
 
 <hibernate-mapping>
     <class name = "com.ideas2it.model.Employee" table = "employee">
-        <id name = "employeeId" column = "employee_id">
+        <id name = "employeeId" column = "employee_id" length = "20">
             <generator class = "assigned">
             </generator>  
         </id>
-        <property name = "employeeType" column = "employee_type" type = "string"></property>
-        <property name = "employeeName" column = "name" type = "string"></property>
-        <property name = "dateOfBirth" column = "date_of_birth" type = "string"></property>
-        <property name = "employeeGender" column = "gender" type = "string"></property>
-        <property name = "mobileNumber" column = "mobile_number" type = "string"></property>
-        <property name = "emailId" column = "mail_id" type = "string"></property>
-        <property name = "designation" column = "designation" type = "string"></property>
-        <property name = "createdAt" column = "created_at" type = "string"></property>
-        <property name = "modifiedAt" column = "modified_at" type = "string"></property>
+        <property name = "employeeType" column = "employee_type" type = "string" length = "20"></property>
+        <property name = "employeeName" column = "name" type = "string" length = "30"></property>
+        <property name = "dateOfBirth" column = "date_of_birth" type = "string" length = "20"></property>
+        <property name = "employeeGender" column = "gender" type = "string" length = "20"></property>
+        <property name = "mobileNumber" column = "mobile_number" type = "string" length = "10"></property>
+        <property name = "emailId" column = "mail_id" type = "string" length = "30"></property>
+        <property name = "designation" column = "designation" type = "string" length = "30"></property>
+        <property name = "createdAt" column = "created_at" type = "string" length = "30"></property>
+        <property name = "modifiedAt" column = "modified_at" type = "string" length = "30"></property>
+        <property name = "deleted" column = "deleted" type = "integer"></property>
 
         <bag name = "leaveRecords" cascade = "all">
         <key column = "employee_id" not-null = "true"></key>

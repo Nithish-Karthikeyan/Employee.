@@ -48,7 +48,8 @@ public class EmployeeController  {
         final String LEAVE_RECORDS = "2";
         final String PROJECT_DETAILS = "3";
         final String ASSIGN_PROJECT = "4";
-        final String EXIT_MENU = "5";
+        final String PRINT_EMPLOYEE_DETAILS = "5";
+        final String EXIT_MENU = "6";
         String choice;
 
         do {
@@ -57,7 +58,8 @@ public class EmployeeController  {
                               +"2. Leave Record\n"
                               +"3. Project Details\n"
                               +"4. Assign project to an Employee\n"
-                              +"5. Exit");
+                              +"5. Print Details of Employee\n"
+                              +"6. Exit");
             choice = scanner.next();
         
             switch(choice) {
@@ -75,6 +77,10 @@ public class EmployeeController  {
 
                 case ASSIGN_PROJECT:
                     assignProject();
+                    break;
+   
+                case PRINT_EMPLOYEE_DETAILS:
+                    printAllEmployeeDetails();
                     break;
                 
                 case EXIT_MENU:
@@ -583,14 +589,14 @@ public class EmployeeController  {
         final int MAXIMUM_LEAVE_COUNT = 10;
         System.out.println("Enter the employee Id");
         String employeeId = scanner.next();
-        Employee employee = checkEmployeeId(employeeId);       
+        Employee employee = checkEmployeeId(employeeId.toUpperCase());       
  
         if(employee != null) {
             DateTimeUtils dateTimeUtils = new DateTimeUtils();
             System.out.println("Employee exist");
 
-            int leaveCount = getEmployeeLeaveCount(employeeId);
-            System.out.println("You have "+ (MAXIMUM_LEAVE_COUNT - leaveCount)+" left");
+            //int leaveCount = getEmployeeLeaveCount(employeeId);
+            //System.out.println("You have "+ (MAXIMUM_LEAVE_COUNT - leaveCount)+" left");
             System.out.println("Enter the leave from date in the format:yyyy-mm-dd");
             String fromDate = validateDate();
 
@@ -605,13 +611,16 @@ public class EmployeeController  {
             String createdAt = dateTimeUtils.getDate();
             String modifiedAt = dateTimeUtils.getDate();
 
-            LeaveRecord leaveRecord = new LeaveRecord(employee, fromDate, toDate,
-                                                  leaveType, createdAt, modifiedAt);
+            LeaveRecord leaveRecord = new LeaveRecord(fromDate, toDate, leaveType, 
+                                                      createdAt, modifiedAt);
 
-            if (leaveRecordServiceImpl.addLeaveRecord(leaveRecord)) {
-                System.out.println("\n\n----Leave Record not added----\n\n");
+           // int leaveId = leaveRecordServiceImpl.addLeaveRecord(leaveRecord); 
+            boolean status = leaveRecordServiceImpl.addLeaveRecord(leaveRecord,employee);  
+
+            if (status) {
+                System.out.println("\n\n----Leave Record added successfully----\n\n");
             } else {
-               System.out.println("\n\n----Leave Record added successfully----\n\n");
+                System.out.println("\n\n----Leave Record not added----\n\n");
             }
         } else {
             System.out.println("Employee not found");
@@ -911,10 +920,10 @@ public class EmployeeController  {
         if(employee != null) {
             System.out.println("Employee exist\nEnter the Project Manager Id");
             String projectManagerId = scanner.next();
-            employee = checkEmployeeId(employeeId);       
+            Employee projectManager = checkEmployeeId(projectManagerId);       
  
-        if(employee != null) {
-                String projectManager = employee.getEmployeeName();
+        if(projectManager != null) {
+                String projectManagerName = projectManager.getEmployeeName();
 
                 DateTimeUtils dateTimeUtils = new DateTimeUtils();
 
@@ -932,13 +941,13 @@ public class EmployeeController  {
                 String modifiedAt = dateTimeUtils.getDate();
 
                 EmployeeProject employeeProject = new EmployeeProject(projectName, 
-                                                                      projectManager, 
+                                                                      projectManagerName, 
                                                                       clientName, 
                                                                       startDate,
                                                                       createdAt,
                                                                       modifiedAt);
              // int project = employeeProjectServiceImpl.addEmployeeProject(employeeProject, employeeId);
-                if (employeeProjectServiceImpl.addEmployeeProject(employeeProject, employeeId)) {
+                if (employeeProjectServiceImpl.addEmployeeProject(employeeProject, employeeId.toUpperCase())) {
                     System.out.println("\n\n----Employee Project not added----\n\n");
                 } else {
                    System.out.println("\n\n----Employee Project added successfully----\n\n");
@@ -990,16 +999,28 @@ public class EmployeeController  {
 
     /**
      * Print the Employee Project by employee Id
-     * 
-     * @param employeeId
      */
     public void getEmployeeProjectByEmployeeId() {
         System.out.println("Enter the employee ID");
-        int projectId = scanner.nextInt();
+        String employeeId = scanner.next();
         StringBuilder printEmployeeProject = new StringBuilder();
         System.out.println(printEmployeeProject.append("-------------------------------------------------\n"
                           +"\n----------------Employee Project---------------\n\n"
-                          +employeeProjectServiceImpl.getEmployeeProjectByEmployeeId(projectId)
+                          +employeeProjectServiceImpl.getEmployeeProjectByEmployeeId(employeeId)
+                          +"\n-------------------------------------------------"));
+    }
+
+    /**
+     * Print the Projects by employee Id
+     */
+    public void getEmployeeProjectByProjectId() {
+        System.out.println("Enter the project ID");
+        int projectId = scanner.nextInt();
+        EmployeeProject project = getProjectById(projectId);
+        StringBuilder printEmployeeProject = new StringBuilder();
+        System.out.println(printEmployeeProject.append("-------------------------------------------------\n"
+                          +"\n----------------Employee Project---------------\n\n"
+                          +  project
                           +"\n-------------------------------------------------"));
     }
 
@@ -1030,16 +1051,13 @@ public class EmployeeController  {
      *  
      */
     public void validateEmployeeProject() {
-        final String CHANGE_EMPLOYEE_ID = "1";
-        final String NO_CHANGE = "2";
         EmployeeProject employeeProject = null;
         int projectId = 0;
         printEployeeProjects();
         System.out.println("Enter the project Id");
         projectId = scanner.nextInt(); 
-        employeeProject = checkEmployeeProjectId(projectId);     
+        employeeProject = getProjectById(projectId);     
         if (employeeProject != null) {  
-            System.out.println("Employee exist");
             editEmployeeProject(employeeProject);
         } else {
             System.out.println("---Project ID not found---");
@@ -1079,7 +1097,7 @@ public class EmployeeController  {
                     Employee employee = checkEmployeeId(userChange);       
                     if(employee != null) {
                         userChange = employee.getEmployeeName();
-                        employeeProject.setProjectManager(userChange);
+                        employeeProject.setProjectManagerName(userChange);
                         updateEmployeeProject(employeeProject);
                     } else {
                         System.out.println("Invalid Id");
@@ -1114,10 +1132,10 @@ public class EmployeeController  {
      * Validate whether the employee in project is exist or not
      *
      */ 
-    public EmployeeProject checkEmployeeProjectId(int projectId) {
+/*    public EmployeeProject checkEmployeeProjectId(int projectId) {
         List<EmployeeProject> employeeProjects = new ArrayList<EmployeeProject>();
         EmployeeProject employeeProject = null;
-        employeeProjects = employeeProjectServiceImpl.getEmployeeProjectByEmployeeId(projectId);
+        employeeProjects = getProjectById(projectId);
 
         for (EmployeeProject project : employeeProjects) {
             if (projectId == project.getProjectId()) {
@@ -1125,7 +1143,7 @@ public class EmployeeController  {
             }
         }
         return employeeProject;
-    }
+    }*/
 
     /**
      * Request the update employee project method in employee project service 
@@ -1164,5 +1182,18 @@ public class EmployeeController  {
             }   
         }
         return project;
+    }
+
+    public void printAllEmployeeDetails() {
+        System.out.println("Enter the employee Id");
+        String employeeId = scanner.next();
+        List<Object[]> employeeInformation = employeeServiceImpl.getEmployeeDetails(employeeId);
+
+        for(Object[] employeeDetail : employeeInformation) {
+            Employee employee = (Employee) employeeDetail[0];
+            EmployeeProject project = (EmployeeProject) employeeDetail[1];
+            System.out.println(employee);
+            System.out.println(project);
+        }
     }
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import com.ideas2it.enums.LeaveType;
 import com.ideas2it.model.Employee;
 
-
 /**
  * This is the POJO class for leave record
  * Contains the setter and getter methods for leaveRecord attributes
@@ -17,32 +16,23 @@ import com.ideas2it.model.Employee;
 public class LeaveRecord {
     private int leaveId;
     private String employeeId;
-    private String leaveReason;
     private String fromDate;
     private String toDate;
     private String leaveType;
-    private int leaveDuration;
     private String createdAt;
     private String modifiedAt;
+    private int deleted;
     private Employee employee;
 
     public LeaveRecord() {}
     
-    public LeaveRecord(Employee employee, String fromDate, String toDate, String leaveType, String createdAt, String modifiedAt) {
-        this.employee = employee;
+    public LeaveRecord(String fromDate, String toDate, String leaveType, String createdAt, String modifiedAt) {
+        //this.employee = employee;
         this.fromDate = fromDate;
         this.toDate = toDate;
         this.leaveType = leaveType;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt; 
-    }
-
-    public LeaveRecord(int leaveId, String employeeId, String fromDate, String toDate, String leaveType) {
-        this.leaveId = leaveId;
-        this.employeeId = employeeId;
-        this.fromDate = fromDate;
-        this.toDate = toDate;
-        this.leaveType = leaveType;
     }
 
     public void setEmployee(Employee employee) {
@@ -109,10 +99,18 @@ public class LeaveRecord {
         return modifiedAt;
     }
 
+    public void setDeleted(int deleted) {
+        this.deleted = deleted;
+    }
+
+    public int getDeleted() {
+        return deleted;
+    }
+
     @Override
     public String toString() {
         String displayLeaveRecords = "\nLeave ID      : "+leaveId+"\n"
-                                      +"Employee ID   : "+employeeId+"\n"
+                                     // +"Employee ID   : "+employee.getEmployeeId()+"\n"
                                       +"From Date     : "+fromDate+"\n"
                                       +"To Date       : "+toDate+"\n"
                                       +"Leave Type    : "+leaveType+"\n";

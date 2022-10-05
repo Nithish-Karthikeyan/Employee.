@@ -25,13 +25,12 @@ import com.ideas2it.model.EmployeeProject;
  */
 public class EmployeeProjectDaoImpl implements EmployeeProjectDao {
     private SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-    private Session session = sessionFactory.openSession();
   
     @Override
     public boolean addEmployeeProject(EmployeeProject employeeProject, String employeeId) {
         boolean isAdded = false;
         List<Employee> employees = new ArrayList<Employee>();
-
+        Session session = sessionFactory.openSession();
 
         try {
             Transaction transaction = session.beginTransaction();
@@ -43,27 +42,35 @@ public class EmployeeProjectDaoImpl implements EmployeeProjectDao {
             isAdded = true;
         } catch (Exception e) {
             System.out.println(e); 
+        } finally {
+            session.close();
         }
         return isAdded;  
     }
 
     @Override
-    public List<EmployeeProject> getEmployeeProjectByEmployeeId(int projectId){
+    public List<EmployeeProject> getEmployeeProjectByEmployeeId(String employeeId){
+        Session session = sessionFactory.openSession();
         List<EmployeeProject> employeeProjects = new ArrayList<EmployeeProject>();
         try {
             Transaction transaction = session.beginTransaction();
-            Query query = session.createQuery("from EmployeeProject where projectId = :projectId");
-            query.setParameter("projectId",projectId);
+            String projectInfo = "from EmployeeProject p where p.projectId = "
+                                 +"(select p.id from p.employees e where e.employeeId = :employeeId)";
+            Query query = session.createQuery(projectInfo);
+            query.setParameter("employeeId",employeeId);
             employeeProjects = query.getResultList();
             transaction.commit();
         } catch (Exception e) {
             System.out.println(e);
+        } finally {
+            session.close();
         }
 	return employeeProjects;
     }
 
     @Override
     public List<EmployeeProject> getEmployeeProjects() {
+        Session session = sessionFactory.openSession();
         List<EmployeeProject> employeeProjects = new ArrayList<EmployeeProject>();
 
         try {
@@ -72,6 +79,8 @@ public class EmployeeProjectDaoImpl implements EmployeeProjectDao {
             transaction.commit();
         } catch (Exception e) {
             System.out.println(e);
+        } finally {
+            session.close();
         }
         return employeeProjects;
     }
@@ -79,12 +88,15 @@ public class EmployeeProjectDaoImpl implements EmployeeProjectDao {
 
     @Override
     public boolean updateEmployeeProject(EmployeeProject employeeProject) {
+        Session session = sessionFactory.openSession();
         try {
             Transaction transaction = session.beginTransaction();
             session.update(employeeProject); 
             transaction.commit();
         } catch (Exception e) {
             System.out.println(e);
+        } finally {
+            session.close();
         }
         return true;
     }

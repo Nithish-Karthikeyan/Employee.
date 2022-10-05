@@ -30,6 +30,7 @@ public class Employee {
     private String designation;
     private String createdAt;
     private String modifiedAt;
+    private int deleted;
     private List<LeaveRecord> leaveRecords;
     private List<EmployeeProject> employeeProjects;
     
@@ -151,6 +152,14 @@ public class Employee {
         return modifiedAt;
     }
 
+    public void setDeleted(int deleted) {
+        this.deleted = deleted;
+    }
+
+    public int getDeleted() {
+        return deleted;
+    }
+
     public void setLeaveRecords(List<LeaveRecord> leaveRecords) {
         this.leaveRecords = leaveRecords;
     }
@@ -172,7 +181,7 @@ public class Employee {
         String displayEmployeeDetails = "\nEmployee ID              : "+employeeId+"\n"
                                          +"Employee Type            : "+employeeType+"\n"
                                          +"Employee Name            : "+employeeName+"\n"
-                                         +"Employee Age             : "+employeeAge+"\n"
+                                         //+"Employee Age             : "+employeeAge+"\n"
                                          +"Employee Gender          : "+employeeGender+"\n"
                                          +"Employee Mobile Number   : "+mobileNumber+"\n"
                                          +"Employee Email Id        : "+emailId+"\n"
