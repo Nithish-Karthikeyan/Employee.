@@ -177,9 +177,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
         try {
             Transaction transaction = session.beginTransaction();
             String employeeInfo =  "from Employee e "
-                                  //+"inner join LeaveRecord l on l.employee_id = e.employeeId "
-                                  +"inner join EmployeeProject p on 1 = 1"
-                                  +"inner join e.employeeProjects ep on ep.id = p.projectId "
+                                  //+"inner join LeaveRecord l on l.employee = :employeeId "
+                                  +"inner join EmployeeProject p on p.projectId = "
+                                  +"(select p.id from p.employees em where em.employeeId = :employeeId)"
                                   +"where e.employeeId = :employeeId ";
             Query query = session.createQuery(employeeInfo);
             query.setParameter("employeeId",employeeId);

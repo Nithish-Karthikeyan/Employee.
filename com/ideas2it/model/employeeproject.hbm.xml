@@ -6,18 +6,19 @@
 <hibernate-mapping>
     <class name = "com.ideas2it.model.EmployeeProject" table = "projects">
         <id name = "projectId" column = "id">
-            <generator class = "increment"></generator>  
+            <generator class="increment"/>
         </id>
-        <property name = "projectName" column = "project_name" type = "string" length = "30"></property>
-        <property name = "startDate" column = "start_date" type = "string" length = "20"></property>
-        <property name = "clientName" column = "client_name" type = "string" length = "30"></property>
-        <property name = "projectManagerName" column = "project_manager" type = "string" length = "30"></property>
-        <property name = "createdAt" column = "created_at" type = "string" length = "30"></property>
-        <property name = "modifiedAt" column = "modified_at" type = "string" length = "30"></property>
+
+        <property name="projectName" column="project_name" type="string" length="30"/>
+        <property name="startDate" column="start_date" type="string" length="20"/>
+        <property name="clientName" column="client_name" type="string" length="30"/>
+        <property name="projectManagerName" column="project_manager" type="string" length="30"/>
+        <property name="createdAt" column="created_at" type="string" length="30"/>
+        <property name="modifiedAt" column="modified_at" type="string" length="30"/>
 
         <bag name = "employees" table = "employee_project" cascade = "all">
-        <key column = "id" not-null = "true"></key>
-        <many-to-many class = "com.ideas2it.model.Employee" column = "employee_id"></many-to-many>
+            <key column="id" not-null="true"/>
+            <many-to-many class="com.ideas2it.model.Employee" column="employee_id"/>
         </bag>
     </class>
 </hibernate-mapping>

@@ -28,26 +28,19 @@ public class LeaveRecordDaoImpl implements LeaveRecordDao {
     private SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
   
     @Override
-    public boolean addLeaveRecord(LeaveRecord leaveRecord, Employee employee) {
+    public int addLeaveRecord(LeaveRecord leaveRecord) {
         Session session = sessionFactory.openSession();
-        boolean isAdded = false;
-        //List<LeaveRecord> leaves = new ArrayList<LeaveRecord>();
-        //leaves.add(leaveRecord);
-
+        int leaveAdded = 0;
         try {
             Transaction transaction = session.beginTransaction();
-            //Query query = session.createQuery("from Employee where employeeId = 'IT103'");
-            //Employee employee = (Employee)query.uniqueResult();
-            //employee.setLeaveRecords(leaves);
-            session.save(leaveRecord);
+            leaveAdded = (Integer) session.save(leaveRecord);
             transaction.commit();
-            isAdded = true;
         } catch (Exception e) {
             System.out.println(e); 
         } finally {
             session.close();
         }
-        return isAdded;  
+        return leaveAdded;  
     }
 
     @Override

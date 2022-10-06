@@ -21,9 +21,8 @@ public class LeaveRecordServiceImpl implements LeaveRecordService {
     private LeaveRecordDao leaveRecordDaoImpl = new LeaveRecordDaoImpl();
     
     @Override 
-    public boolean addLeaveRecord(LeaveRecord leaveRecord,Employee employee) {
-        System.out.println("Service");
-        return leaveRecordDaoImpl.addLeaveRecord(leaveRecord,employee);
+    public int addLeaveRecord(LeaveRecord leaveRecord) {
+        return leaveRecordDaoImpl.addLeaveRecord(leaveRecord);
     }
 
     @Override

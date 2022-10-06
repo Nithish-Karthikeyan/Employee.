@@ -25,7 +25,7 @@ public interface LeaveRecordService {
      * @param leaveRecord
      * @return boolean
      */
-    public boolean addLeaveRecord(LeaveRecord leaveRecord, Employee employee);
+    public int addLeaveRecord(LeaveRecord leaveRecord);
 
     /**
      * Passes employee ID to LeaveRecord Dao to get leave records of particular employee

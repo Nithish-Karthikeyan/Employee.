@@ -6,10 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-
-import com.ideas2it.enums.EmployeeType;
-import com.ideas2it.enums.Gender;
-
 /**
  * This is the POJO class for employee
  * Contains the setter and getter methods for employee attributes

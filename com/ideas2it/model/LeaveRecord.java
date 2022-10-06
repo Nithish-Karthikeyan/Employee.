@@ -26,8 +26,8 @@ public class LeaveRecord {
 
     public LeaveRecord() {}
     
-    public LeaveRecord(String fromDate, String toDate, String leaveType, String createdAt, String modifiedAt) {
-        //this.employee = employee;
+    public LeaveRecord(Employee employee, String fromDate, String toDate, String leaveType, String createdAt, String modifiedAt) {
+        this.employee = employee;
         this.fromDate = fromDate;
         this.toDate = toDate;
         this.leaveType = leaveType;

@@ -9,25 +9,25 @@
             <generator class = "assigned">
             </generator>  
         </id>
-        <property name = "employeeType" column = "employee_type" type = "string" length = "20"></property>
-        <property name = "employeeName" column = "name" type = "string" length = "30"></property>
-        <property name = "dateOfBirth" column = "date_of_birth" type = "string" length = "20"></property>
-        <property name = "employeeGender" column = "gender" type = "string" length = "20"></property>
-        <property name = "mobileNumber" column = "mobile_number" type = "string" length = "10"></property>
-        <property name = "emailId" column = "mail_id" type = "string" length = "30"></property>
-        <property name = "designation" column = "designation" type = "string" length = "30"></property>
-        <property name = "createdAt" column = "created_at" type = "string" length = "30"></property>
-        <property name = "modifiedAt" column = "modified_at" type = "string" length = "30"></property>
-        <property name = "deleted" column = "deleted" type = "integer"></property>
+        <property name="employeeType" column="employee_type" type="string" length="20"/>
+        <property name="employeeName" column="name" type="string" length="30"/>
+        <property name="dateOfBirth" column="date_of_birth" type="string" length="20"/>
+        <property name="employeeGender" column="gender" type="string" length="20"/>
+        <property name="mobileNumber" column="mobile_number" type="string" length="10"/>
+        <property name="emailId" column="mail_id" type="string" length="30"/>
+        <property name="designation" column="designation" type="string" length="30"/>
+        <property name="createdAt" column="created_at" type="string" length="30"/>
+        <property name="modifiedAt" column="modified_at" type="string" length="30"/>
+        <property name="deleted" column="deleted" type="integer"/>
 
-        <bag name = "leaveRecords" cascade = "all">
-        <key column = "employee_id" not-null = "true"></key>
-        <one-to-many class = "com.ideas2it.model.LeaveRecord"></one-to-many>
+        <bag name = "leaveRecords" cascade = "all" inverse = "true" fetch = "select">
+            <key column="employee_id" not-null="true"/>
+            <one-to-many class="com.ideas2it.model.LeaveRecord"/>
         </bag>
 
         <bag name = "employeeProjects" table = "employee_project" cascade = "all">
-        <key column = "employee_id" not-null = "true"></key>
-        <many-to-many class = "com.ideas2it.model.EmployeeProject" column = "id"></many-to-many>
+            <key column="employee_id" not-null="true"/>
+            <many-to-many class="com.ideas2it.model.EmployeeProject" column="id"/>
         </bag>
     </class>
 </hibernate-mapping>

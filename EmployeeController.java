@@ -26,7 +26,7 @@ import com.ideas2it.validationutils.ValidationUtils;
  * leave record and project details
  *
  * @author Nithish K
- * @verison 1.0
+ * @version 1.0
  * @since 17.09.2022
  */
 public class EmployeeController  {
@@ -53,13 +53,14 @@ public class EmployeeController  {
         String choice;
 
         do {
-            System.out.println("----Enter the choice----\n"
-                              +"1. Employee Details\n"
-                              +"2. Leave Record\n"
-                              +"3. Project Details\n"
-                              +"4. Assign project to an Employee\n"
-                              +"5. Print Details of Employee\n"
-                              +"6. Exit");
+            System.out.println("""
+                    ----Enter the choice----
+                    1. Employee Details
+                    2. Leave Record
+                    3. Project Details
+                    4. Assign project to an Employee
+                    5. Print Details of Employee
+                    6. Exit""");
             choice = scanner.next();
         
             switch(choice) {
@@ -96,7 +97,6 @@ public class EmployeeController  {
      * Select the operation for employee like add, display, edit and remove
      * Calls another method based on the user input
      *
-     * @param userChoice
      */
     public void chooseOperationForEmployee() {
         final String ADD_EMPLOYEE = "1";
@@ -142,22 +142,22 @@ public class EmployeeController  {
      */
     public String getUserChoice() {
         StringBuilder printUserMenu = new StringBuilder();
-        System.out.println(printUserMenu.append("-----Enter the choice-----\n"
-                             +"1. Add an Employee\n" 
-                             +"2. Display Employee details\n"
-                             +"3. Edit employee details\n"
-                             +"4. Delete a employee\n"
-                             +"5. Exit\n"));
-        String choice = scanner.next();
-        return choice;
+        System.out.println(printUserMenu.append("""
+                -----Enter the choice-----
+                1. Add an Employee
+                2. Display Employee details
+                3. Edit employee details
+                4. Delete a employee
+                5. Exit
+                """));
+        return scanner.next();
     }
 
     /**
      * Gets the employee details from the user.
      * This method invokes another method for creating employee id
      * Gets input for employee name, employee Type, dateOfBirth, mobile number
-     * emailid, designation
-     *
+     * email-id, designation
      * Every parameter is validating by validation util class
      */
     public void addEmployee() {
@@ -183,6 +183,7 @@ public class EmployeeController  {
  
         System.out.println("Enter the Email ID");
         String emailId = validateEmployeeEmail(); 
+
 
         System.out.println("Enter the designation");
         String designation = validateDesignation();
@@ -213,9 +214,10 @@ public class EmployeeController  {
 
         System.out.println("Enter the choice");
         while(true) {
-            System.out.println("1. Print all employee details\n"
-                               +"2. Print one employee detail\n"
-                               +"3. Exit");
+            System.out.println("""
+                    1. Print all employee details
+                    2. Print one employee detail
+                    3. Exit""");
             String choice = scanner.next();
             if(choice.equals(PRINT_EMPLOYEES)) {
                 printEmployees();
@@ -280,7 +282,6 @@ public class EmployeeController  {
 
     /**
      * This method edit the employee details
-     * 
      * Get input from the user for updating employee name, dateOfBirth, mobile Number 
      * emailId, current project
      * Every parameter is validating by validation util class
@@ -293,8 +294,8 @@ public class EmployeeController  {
         final String CHANGE_EMAIL_ID = "5";
         final String CHANGE_DESIGNATION = "6";
         final String EXIT_EMPLOYEE_EDIT = "7";
-        String choice = " ";
-        Employee employee = null;
+        String choice;
+        Employee employee;
         System.out.println("Enter the employee Id");
         String employeeId = scanner.next();
 	employee = employeeServiceImpl.getEmployeeById(employeeId);
@@ -363,14 +364,13 @@ public class EmployeeController  {
     /**
      * Request the update employee method in employee service 
      * to update the employee
-     *
      * @param employee
      */
     public void updateEmployee(Employee employee) {
         DateTimeUtils dateTimeUtils = new DateTimeUtils();
         employee.setModifiedAt(dateTimeUtils.getDate());
         if(employeeServiceImpl.updateEmployee(employee)) {
-            System.out.println("---Employee Updated Sucessfully---");   
+            System.out.println("---Employee Updated Successfully---");
         } else {
             System.out.println("---Employee not Updated---");
         }
@@ -395,7 +395,6 @@ public class EmployeeController  {
     /**
      * Gets the input for validating 
      * the employee name
-     *
      * The name will be passed to validation
      * utils class for validating
      *
@@ -403,16 +402,16 @@ public class EmployeeController  {
      */
     public String validateName() {
         ValidationUtils validationUtils = new ValidationUtils();
-        String name = " ";
+        String name;
         boolean check;
         do {
             scanner.nextLine();
             name = scanner.nextLine();
             check = validationUtils.validateName(name);
-            if (check == false) {
+            if (!check) {
                 System.out.println("Please enter the valid name");
             }
-        }while(check==false);
+        }while(!check);
         return name;
     }
 
@@ -432,10 +431,10 @@ public class EmployeeController  {
         do {
             mobileNumber = scanner.next();
             check = validationUtils.validateMobile(mobileNumber);
-            if (check == false) {
+            if (!check) {
                 System.out.println("Please enter the valid mobile number");
             }
-        }while(check==false);
+        }while(!check);
         return mobileNumber;
     }
 
@@ -455,10 +454,10 @@ public class EmployeeController  {
         do {
             emailId = scanner.next();
             check = validationUtils.validateEmail(emailId);
-            if (check == false) {
+            if (!check) {
                 System.out.println("Please enter the valid Email ID");
             }
-        }while(check==false);
+        }while(!check);
         return emailId;
     }
 
@@ -478,10 +477,10 @@ public class EmployeeController  {
         do {
             designation = scanner.next();
             check = validationUtils.validateDesignation(designation);
-            if (check == false) {
+            if (!check) {
                 System.out.println("Please enter the valid Project");
             }
-        }while(check==false);
+        }while(!check);
         return designation;
     }
 
@@ -497,23 +496,22 @@ public class EmployeeController  {
         do {
             dateOfBirth = scanner.next();
             check = validationUtils.validateDateOfBirth(dateOfBirth);
-            if (check == false){
+            if (!check){
                 System.out.println("Please enter the valid date of birth");
             }
-        }while(check==false);
+        }while(!check);
         return dateOfBirth;
     }
 
     /**
      * Check whether the employee
-     * is exist or not exist
+     * is existed or not exist
      *
      * EmployeeNotFoundException- a custom exception is used
      * This exception occurs if employee not found
      */
     public Employee checkEmployeeId(String employeeId) {
-        Employee employee = employeeServiceImpl.getEmployeeById(employeeId);
-        return employee;
+        return employeeServiceImpl.getEmployeeById(employeeId);
     }
 
 
@@ -574,19 +572,19 @@ public class EmployeeController  {
                              +"3. Edit\n"
                              +"4. Delete\n"
                              +"5. Exit\n"));
-        String choice = scanner.next();
-        return choice;
+        return scanner.next();
     }
 
     /**
      * Gets the leave records from the user
-     * First thing it gets the enmployee id and validates  
-     * the employee is exist or exist 
+     * First thing it gets the employee id and validates
+     * the employee is existed or not exist
      * If employee exist it 
      * Gets input for fromDate, toDate and leave type
      */
     public void addLeaveRecord() {
         final int MAXIMUM_LEAVE_COUNT = 10;
+        final int EMPTY_ID = 0;
         System.out.println("Enter the employee Id");
         String employeeId = scanner.next();
         Employee employee = checkEmployeeId(employeeId.toUpperCase());       
@@ -603,21 +601,23 @@ public class EmployeeController  {
             System.out.println("Enter the leave to date in the format:yyyy-mm-dd");
             String toDate = validateDate();
 
-            System.out.println("Enter the leave type\n1. Casual Leave\n"
-                              +"2. Sick Leave\n3. Medical Leave");
+            System.out.println("""
+                    Enter the leave type
+                    1. Casual Leave
+                    2. Sick Leave
+                    3. Medical Leave""");
             String choice = scanner.next();
             String leaveType = LeaveType.getLeaveType(choice).toString();
             
             String createdAt = dateTimeUtils.getDate();
             String modifiedAt = dateTimeUtils.getDate();
 
-            LeaveRecord leaveRecord = new LeaveRecord(fromDate, toDate, leaveType, 
+            LeaveRecord leaveRecord = new LeaveRecord(employee, fromDate, toDate, leaveType, 
                                                       createdAt, modifiedAt);
 
-           // int leaveId = leaveRecordServiceImpl.addLeaveRecord(leaveRecord); 
-            boolean status = leaveRecordServiceImpl.addLeaveRecord(leaveRecord,employee);  
+            int leaveAdded = leaveRecordServiceImpl.addLeaveRecord(leaveRecord); 
 
-            if (status) {
+            if (leaveAdded != EMPTY_ID) {
                 System.out.println("\n\n----Leave Record added successfully----\n\n");
             } else {
                 System.out.println("\n\n----Leave Record not added----\n\n");
@@ -630,7 +630,7 @@ public class EmployeeController  {
 
     /**
      * Get the number of leaves taken by the employee
-     * It validate the employee by employee id
+     * It validates the employee by employee id
      * If employee exist leave swill be calculated
      * If employee does not exist it show employee not found exception
      *
@@ -663,9 +663,10 @@ public class EmployeeController  {
 
         System.out.println("Enter the choice");
         while(true) {
-            System.out.println("1. Print all Leave Records\n"
-                               +"2. Print particular Leave Record\n"
-                               +"3. Exit");
+            System.out.println("""
+                    1. Print all Leave Records
+                    2. Print particular Leave Record
+                    3. Exit""");
             String choice = scanner.next();
             if(choice.equals(PRINT_LEAVE_RECORDS)) {
                 printLeaveRecords();
@@ -684,7 +685,7 @@ public class EmployeeController  {
     }    
 
     /**
-     * Print all the leaverecords of the employees
+     * Print all the leave records of the employees
      */
     public void printLeaveRecords() {
         StringBuilder printLeaveRecords = new StringBuilder();
@@ -696,7 +697,6 @@ public class EmployeeController  {
 
     /**
      * Print the leave Record by employee Id
-     * 
      * @param employeeId
      */
     public void getLeaveRecordByEmployeeId(String employeeId) {
@@ -716,11 +716,13 @@ public class EmployeeController  {
     public String showChoiceForLeaveRecord() {
         String choice;
         StringBuilder printEditMenu = new StringBuilder();
-        System.out.println(printEditMenu.append("Enter the option to change\n"
-                           +"1. Change leave Start Date\n"
-                           +"2. Change leave End Date \n"
-                           +"3. Change Leave Type\n"
-                           +"4. Exit\n"));
+        System.out.println(printEditMenu.append("""
+                Enter the option to change
+                1. Change leave Start Date
+                2. Change leave End Date\s
+                3. Change Leave Type
+                4. Exit
+                """));
         choice = scanner.next();
         return choice;
     }
@@ -746,7 +748,6 @@ public class EmployeeController  {
 
     /**
      * This method edit the leave records details
-     * 
      * Get input from the user for updating start date, end date, leave type 
      * Every parameter is validating by validation util class
      */
@@ -755,7 +756,7 @@ public class EmployeeController  {
         final String CHANGE_END_DATE = "2";
         final String CHANGE_LEAVE_TYPE = "3";
         final String EXIT_EDIT_LEAVE_RECORD = "4";
-        String choice = null;
+        String choice;
         System.out.println("Enter the Leave ID");
         int leaveId = scanner.nextInt();
 
@@ -780,8 +781,11 @@ public class EmployeeController  {
                             break;
                                
                         case CHANGE_LEAVE_TYPE:
-                            System.out.println("Enter the leave type\n1. Casual Leave\n"
-                                                 +"2. Sick Leave\n3. Medical Leave");
+                            System.out.println("""
+                                    Enter the leave type
+                                    1. Casual Leave
+                                    2. Sick Leave
+                                    3. Medical Leave""");
                             choice = scanner.next();
                             userChange = LeaveType.getLeaveType(choice).toString();
                             leaveEntry.setLeaveType(userChange);
@@ -802,9 +806,9 @@ public class EmployeeController  {
 
     /**
      * Request the update employee leave record method in employee leave record service 
-     * to update the leave records
+     * to update the leave record
      *
-     * @param employeeProject
+     * @param leaveEntry
      */
     public void updateLeaveRecord(LeaveRecord leaveEntry) {
         DateTimeUtils dateTimeUtils = new DateTimeUtils();
@@ -827,10 +831,10 @@ public class EmployeeController  {
             date = scanner.next();
             isValidDate = validationUtils.validateDate(date);
 
-            if (isValidDate == false) {
+            if (!isValidDate) {
                 System.out.println("Please enter the valid date");    
             }
-        }while(isValidDate == false);
+        }while(!isValidDate);
         return date;
     }
 
@@ -889,26 +893,27 @@ public class EmployeeController  {
     }
 
     /**
-     * Prints add, display,edit, delete and exit choice 
+     * Prints add, display,edit and exit choice 
      * for employee project and gets input form the user
      *
      * @return choice
      */
     public String getChoiceForEmployeeProject() {
         StringBuilder printUserMenu = new StringBuilder();
-        System.out.println(printUserMenu.append("-----Enter the choice-----\n"
-                             +"1. Add\n" 
-                             +"2. Display\n"
-                             +"3. Update\n"
-                             +"4. Exit\n"));
-        String choice = scanner.next();
-        return choice;
+        System.out.println(printUserMenu.append("""
+                -----Enter the choice-----
+                1. Add
+                2. Display
+                3. Update
+                4. Exit
+                """));
+        return scanner.next();
     }
 
     /**
      * Gets the employee project from the user
-     * First thing it gets the enmployee id and validates  
-     * the employee is exist or exist 
+     * First thing it gets the employee id and validates
+     * the employee is existed or not exist
      * If employee exist it 
      * Gets input for project name, project manager id and start date of project
      */
@@ -948,9 +953,9 @@ public class EmployeeController  {
                                                                       modifiedAt);
              // int project = employeeProjectServiceImpl.addEmployeeProject(employeeProject, employeeId);
                 if (employeeProjectServiceImpl.addEmployeeProject(employeeProject, employeeId.toUpperCase())) {
-                    System.out.println("\n\n----Employee Project not added----\n\n");
+                    System.out.println("\n\n----Employee Project added successfully----\n\n");
                 } else {
-                   System.out.println("\n\n----Employee Project added successfully----\n\n");
+                   System.out.println("\n\n----Employee Project not added----\n\n");
                 }
             }
         }
@@ -968,12 +973,13 @@ public class EmployeeController  {
 
         System.out.println("Enter the choice");
         while(true) {
-            System.out.println("1. Print all Employee Projects\n"
-                               +"2. Print particular Employee Project\n"
-                               +"3. Exit");
+            System.out.println("""
+                    1. Print all Employee Projects
+                    2. Print particular Employee Project
+                    3. Exit""");
             String choice = scanner.next();
             if(choice.equals(PRINT_ALL_EMPLOYEE_PROJECTS)) {
-                printEployeeProjects();
+                printEmployeeProjects();
                 break;
             } else if (choice.equals(PRINT_EMPLOYEE_PROJECT)) {
                 getEmployeeProjectByEmployeeId();
@@ -989,7 +995,7 @@ public class EmployeeController  {
     /**
      * Print all the employee projects of the employees
      */
-    public void printEployeeProjects() {
+    public void printEmployeeProjects() {
         StringBuilder printEmployeeProjects = new StringBuilder();
         System.out.println(printEmployeeProjects.append("-------------------------------------------------\n"
                               +"\n----------------Employee Projects---------------\n\n"
@@ -1033,12 +1039,14 @@ public class EmployeeController  {
     public String showChoiceForEmployeeProject() {
         String choice;
         StringBuilder printEditMenu = new StringBuilder();
-        System.out.println(printEditMenu.append("Enter the option to change\n"
-                           +"1. Change Project name\n"
-                           +"2. Change Project manager \n"
-                           +"3. Change Client Name\n"
-                           +"4. Change Project Start Date\n"
-                           +"5. Exit\n"));
+        System.out.println(printEditMenu.append("""
+                Enter the option to change
+                1. Change Project name
+                2. Change Project manager\s
+                3. Change Client Name
+                4. Change Project Start Date
+                5. Exit
+                """));
         choice = scanner.next();
         return choice;
     }
@@ -1047,13 +1055,13 @@ public class EmployeeController  {
      * validate the employee in the Project details
      * then if user want to change employee id 
      * it will get the new employee id and validate whether
-     * the employee is exist or not
+     * the employee is existed or not
      *  
      */
     public void validateEmployeeProject() {
         EmployeeProject employeeProject = null;
         int projectId = 0;
-        printEployeeProjects();
+        printEmployeeProjects();
         System.out.println("Enter the project Id");
         projectId = scanner.nextInt(); 
         employeeProject = getProjectById(projectId);     
@@ -1068,7 +1076,7 @@ public class EmployeeController  {
      * This method edit the employee project details
      * 
      * Get input from the user for updating start date of project
-     * project name, client name 
+     * project_name, client name
      * Every parameter is validating by validation util class
      */
     public void editEmployeeProject(EmployeeProject employeeProject) {
@@ -1129,23 +1137,6 @@ public class EmployeeController  {
     }
 
     /**
-     * Validate whether the employee in project is exist or not
-     *
-     */ 
-/*    public EmployeeProject checkEmployeeProjectId(int projectId) {
-        List<EmployeeProject> employeeProjects = new ArrayList<EmployeeProject>();
-        EmployeeProject employeeProject = null;
-        employeeProjects = getProjectById(projectId);
-
-        for (EmployeeProject project : employeeProjects) {
-            if (projectId == project.getProjectId()) {
-                employeeProject = project;
-            }
-        }
-        return employeeProject;
-    }*/
-
-    /**
      * Request the update employee project method in employee project service 
      * to update the project details
      *
@@ -1162,7 +1153,7 @@ public class EmployeeController  {
         String employeeId = scanner.next();
         Employee employee = checkEmployeeId(employeeId);
         if (employee != null) {
-            printEployeeProjects();
+            printEmployeeProjects();
             System.out.println("Enter the project id for the employee");
             int projectId = scanner.nextInt();
             EmployeeProject project = getProjectById(projectId);
@@ -1191,8 +1182,10 @@ public class EmployeeController  {
 
         for(Object[] employeeDetail : employeeInformation) {
             Employee employee = (Employee) employeeDetail[0];
+            //LeaveRecord leaves = (LeaveRecord) employeeDetail[1];
             EmployeeProject project = (EmployeeProject) employeeDetail[1];
             System.out.println(employee);
+            //System.out.println(leaves);
             System.out.println(project);
         }
     }

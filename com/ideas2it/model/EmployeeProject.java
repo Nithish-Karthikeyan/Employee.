@@ -1,7 +1,6 @@
 package com.ideas2it.model;
 
 import java.util.List;
-import com.ideas2it.model.Employee;
 
 /**
  * This is the POJO class for employee project
