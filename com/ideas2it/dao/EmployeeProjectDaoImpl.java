@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;  
 import org.hibernate.Transaction;
 
-import com.ideas2it.dao.EmployeeProjectDao;
 import com.ideas2it.databaseconnection.DatabaseConnection;
 import com.ideas2it.exception.EmployeeNotFoundException;
 import com.ideas2it.model.Employee;

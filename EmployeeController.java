@@ -696,7 +696,7 @@ public class EmployeeController  {
     }
 
     /**
-     * Print the leave Record by employee Id
+     * Print the leave Record by employee-Id
      * @param employeeId
      */
     public void getLeaveRecordByEmployeeId(String employeeId) {
@@ -972,22 +972,25 @@ public class EmployeeController  {
         final String EXIT_PRINT_EMPLOYEE_PROJECT ="3";
 
         System.out.println("Enter the choice");
+        label:
         while(true) {
             System.out.println("""
                     1. Print all Employee Projects
                     2. Print particular Employee Project
                     3. Exit""");
             String choice = scanner.next();
-            if(choice.equals(PRINT_ALL_EMPLOYEE_PROJECTS)) {
-                printEmployeeProjects();
-                break;
-            } else if (choice.equals(PRINT_EMPLOYEE_PROJECT)) {
-                getEmployeeProjectByEmployeeId();
-                break;
-            } else if (choice.equals(EXIT_PRINT_EMPLOYEE_PROJECT)) {
-                break;
-            } else {
-                System.out.println("Enter the valid option");
+            switch (choice) {
+                case PRINT_ALL_EMPLOYEE_PROJECTS:
+                    printEmployeeProjects();
+                    break label;
+                case PRINT_EMPLOYEE_PROJECT:
+                    getEmployeeProjectByEmployeeId();
+                    break label;
+                case EXIT_PRINT_EMPLOYEE_PROJECT:
+                    break label;
+                default:
+                    System.out.println("Enter the valid option");
+                    break;
             }
         }
     }    
@@ -1004,7 +1007,7 @@ public class EmployeeController  {
     }
 
     /**
-     * Print the Employee Project by employee Id
+     * Print the Employee Project by employee_Id
      */
     public void getEmployeeProjectByEmployeeId() {
         System.out.println("Enter the employee ID");
@@ -1017,7 +1020,7 @@ public class EmployeeController  {
     }
 
     /**
-     * Print the Projects by employee Id
+     * Print the Projects by employee_Id
      */
     public void getEmployeeProjectByProjectId() {
         System.out.println("Enter the project ID");
@@ -1059,12 +1062,12 @@ public class EmployeeController  {
      *  
      */
     public void validateEmployeeProject() {
-        EmployeeProject employeeProject = null;
+        EmployeeProject employeeProject;
         int projectId = 0;
         printEmployeeProjects();
         System.out.println("Enter the project Id");
         projectId = scanner.nextInt(); 
-        employeeProject = getProjectById(projectId);     
+        employeeProject = getProjectById(projectId);
         if (employeeProject != null) {  
             editEmployeeProject(employeeProject);
         } else {
@@ -1073,8 +1076,7 @@ public class EmployeeController  {
     }
 
     /**
-     * This method edit the employee project details
-     * 
+     * This method edit the employee project detail
      * Get input from the user for updating start date of project
      * project_name, client name
      * Every parameter is validating by validation util class
@@ -1085,8 +1087,8 @@ public class EmployeeController  {
         final String CHANGE_CLIENT_NAME = "3";
         final String CHANGE_PROJECT_START_DATE = "4";
         final String EXIT_EMPLOYEE_PROJECT_EDIT = "5";
-        String userChange = " ";
-        String choice = " ";
+        String userChange;
+        String choice;
 
         do {
             choice = showChoiceForEmployeeProject();                              

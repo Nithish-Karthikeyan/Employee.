@@ -8,11 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;  
 import org.hibernate.Transaction;
 
-import com.ideas2it.dao.LeaveRecordDao;
 import com.ideas2it.databaseconnection.DatabaseConnection;
-import com.ideas2it.enums.LeaveType;
 import com.ideas2it.exception.EmployeeNotFoundException;
-import com.ideas2it.model.Employee;
 import com.ideas2it.model.LeaveRecord;
 
 /**

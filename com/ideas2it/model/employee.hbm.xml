@@ -7,7 +7,7 @@
     <class name = "com.ideas2it.model.Employee" table = "employee">
         <id name = "employeeId" column = "employee_id" length = "20">
             <generator class = "assigned">
-            </generator>  
+            </generator>
         </id>
         <property name="employeeType" column="employee_type" type="string" length="20"/>
         <property name="employeeName" column="name" type="string" length="30"/>

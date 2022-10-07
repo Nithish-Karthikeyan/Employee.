@@ -2,17 +2,13 @@ package com.ideas2it.dao;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.Query;
-import org.hibernate.Session;  
-import org.hibernate.SessionFactory;  
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import com.ideas2it.dao.EmployeeDao;
 import com.ideas2it.databaseconnection.DatabaseConnection;
-import com.ideas2it.enums.EmployeeType;
-import com.ideas2it.enums.Gender;
 import com.ideas2it.exception.EmployeeNotFoundException;
 import com.ideas2it.model.Employee;
 import com.ideas2it.model.EmployeeProject;
@@ -128,6 +124,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
             transaction.commit();
         } catch (Exception e) {
             System.out.println(e);
+        } finally {
+            session.close();
         }
         return updatedRow;
     }
